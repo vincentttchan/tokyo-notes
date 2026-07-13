@@ -112,4 +112,47 @@ html.js-ready .route-day[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { *, *:before, *:after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 @media (min-width: 560px) { .route-page { padding-left: 2rem; padding-right: 2rem; } .bottom-nav { border-right: 1px solid var(--rule); border-left: 1px solid var(--rule); border-radius: 24px 24px 0 0; } }
 @media print { .bottom-nav, .date-rail { display: none; } .route-page { padding-bottom: 0; } .route-day[hidden] { display: block !important; } }
+
+.collect-hero { padding: .4rem 0 1.25rem; border-bottom: 2px solid var(--ink); }
+.collect-hero h1 { max-width: 13ch; margin: .25rem 0 .45rem; font-size: clamp(2rem, 9vw, 3rem); line-height: 1; letter-spacing: -.06em; }
+.collect-hero > p:last-of-type { margin: 0; color: var(--muted); font-size: .95rem; }
+[data-collection-index] { display: flex; gap: .45rem; overflow-x: auto; margin-top: 1rem; padding-bottom: .15rem; scrollbar-width: none; }
+[data-collection-index]::-webkit-scrollbar { display: none; }
+[data-collection-index] a { flex: 0 0 auto; min-height: 36px; padding: .35rem .7rem; border: 1px solid var(--rule); border-radius: 999px; background: #fffdf7; font-size: .8rem; font-weight: 850; text-decoration: none; }
+.collection-grid { gap: 1.5rem; margin-top: 1.5rem; }
+.collection { padding-top: .8rem; border-top: 3px solid var(--ink); scroll-margin-top: 1rem; }
+.collection h2 { margin: .1rem 0; font-size: 1.45rem; line-height: 1.1; }
+.collection-kicker { margin: 0; color: var(--vermilion); font-size: .68rem; font-weight: 900; letter-spacing: .13em; }
+.collection-intro { margin: .25rem 0 .8rem; color: var(--muted); font-size: .9rem; }
+.collection-list { gap: .7rem; }
+.collection-item { gap: .35rem; padding: .9rem; border-radius: 14px; box-shadow: 0 3px 10px rgba(74,49,27,.04); text-decoration: none; }
+.collection-item strong { font-size: 1rem; }
+.collection-purpose { color: var(--muted); font-size: .88rem; line-height: 1.45; }
+.collection-route { color: var(--vermilion); font-size: .8rem; font-weight: 900; }
+.explore-archive { margin-top: 1.75rem; border: 1px solid var(--rule); background: #fffdf7; }
+.explore-archive > summary { min-height: 52px; padding: .8rem; cursor: pointer; font-weight: 900; }
+.wallet-breakdown { display:grid; grid-template-columns:7rem 1fr; gap:1rem; align-items:center; padding:1rem 0; border-top:1px solid var(--rule); }
+[data-wallet-chart] { width:7rem; aspect-ratio:1; border-radius:50%; }
+[data-wallet-legend] { display:grid; gap:.4rem; font-size:.8rem; }
+[data-wallet-legend] span { display:flex; gap:.4rem; align-items:center; }
+[data-wallet-legend] i { width:.7rem; height:.7rem; border-radius:50%; }
+.wallet-history { border-top:1px solid var(--rule); padding-top:.8rem; }.wallet-history h3{margin:0 0 .5rem}.wallet-history article{display:grid;grid-template-columns:1fr auto;gap:.1rem .7rem;padding:.65rem 0;border-top:1px dashed var(--rule)}.wallet-history article span{color:var(--muted);font-size:.8rem}.wallet-history article b{grid-column:2;grid-row:1/3}
+
+/* Route timeline: essentials are visible; only the long source note is optional. */
+.route-day-card .route-stop { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: .7rem; }
+.route-day-card .route-stop:before { display: block; top: 2rem; bottom: -1rem; left: 1.6rem; }
+.route-day-card .route-stop:last-child:before { display: none; }
+.timeline-time { padding-top: 1rem; color: var(--vermilion); font-size: .85rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+.timeline-entry { min-width: 0; padding: .95rem 0 1.1rem; border-bottom: 1px solid var(--rule); }
+.route-stop:last-child .timeline-entry { border-bottom: 0; }
+.timeline-entry h3 { margin: .15rem 0; font-size: 1.05rem; line-height: 1.3; }
+.timeline-category { margin: 0; color: var(--vermilion); font-size: .7rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.timeline-purpose { margin: .3rem 0 0; color: var(--muted); font-size: .92rem; }
+.timeline-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.timeline-actions .map, .timeline-actions .reservation-action, .timeline-actions .reservation-status { min-height: 44px; }
+.timeline-note { margin-top: .65rem; border-top: 1px dashed var(--rule); }
+.timeline-note summary { min-height: 44px; padding: .55rem 0; color: var(--muted); cursor: pointer; font-size: .85rem; font-weight: 800; }
+.timeline-note .stop-detail { padding: .1rem 0 .2rem; border: 0; box-shadow: none; }
+.timeline-entry[data-current="true"] { margin-inline: -.55rem; padding-inline: .55rem; border: 1px solid var(--vermilion); border-radius: 12px; background: #fff0df; box-shadow: var(--shadow); }
+.timeline-entry[data-next="true"] { margin-inline: -.35rem; padding-inline: .35rem; background: var(--paper-deep); border-radius: 10px; }
 </style></head><body><header class="day-masthead"><a class="back-link" href="index.html">← 今日總覽</a><p class="eyebrow">DAY 1 / 10</p><h1>抵達東京｜上野宵夜、入住 LANDABOUT</h1><p>第一晚以穩定為先，不安排硬景點。</p><div class="day-progress"><span style="width:10%"></span></div></header><main class="route-page"><article class="day" id="d16"><section class="next-action"><section class="today-card" aria-label="下一站"><div class="today-card-top"><span>下一站</span><span class="today-time">19:45</span></div><h3>抵達成田機場</h3><p>入境、取行李，前往上野／日暮里。</p><div class="today-card-actions"><span class="category-chip">Airport</span><a class="map primary-map" href="https://www.google.com/maps/search/?api=1&amp;query=Narita+International+Airport" rel="noopener" target="_blank">在 Google Maps 開啟</a></div></section></section><div class="route-entry"><section class="route-day" data-route-day="16" id="d16"><ol class="route-timeline"><li class="route-stop" data-stop-card data-stop-index="0" data-stop-time="19:45" id="day-16-stop-0"><time datetime="19:45">19:45</time><details class="stop-disclosure"><summary><span class="stop-title">抵達成田機場</span><span class="stop-purpose">入境、取行李，前往上野／日暮里。</span></summary><div class="stop-detail"><div class="time">19:45</div><div class="rail"></div><div class="stepcard"><div class="steptext"><h4>抵達成田機場</h4><p>入境、取行李，前往上野／日暮里。</p></div><div class="actions"><span>Airport</span><a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Narita+International+Airport" rel="noopener" target="_blank">Map</a></div></div></div></details></li><li class="route-stop" data-stop-card data-stop-index="1" data-stop-time="22:00" id="day-16-stop-1"><time datetime="22:00">22:00</time><details class="stop-disclosure"><summary><span class="stop-title">上野／御徒町宵夜</span><span class="stop-purpose">有精神才吃拉麵；太累就便利店。</span></summary><div class="stop-detail"><div class="time">22:00</div><div class="rail"></div><div class="stepcard"><div class="steptext"><h4>上野／御徒町宵夜</h4><p>有精神才吃拉麵；太累就便利店。</p></div><div class="actions"><span>Dinner</span><a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ueno+Okachimachi+Tokyo" rel="noopener" target="_blank">Map</a></div></div></div></details></li><li class="route-stop" data-stop-card data-stop-index="2" data-stop-time="" id="day-16-stop-2"><time>23:00+</time><details class="stop-disclosure"><summary><span class="stop-title">LANDABOUT TOKYO check-in</span><span class="stop-purpose">整理行李、充電、休息。</span></summary><div class="stop-detail"><div class="time">23:00+</div><div class="rail"></div><div class="stepcard"><div class="steptext"><h4>LANDABOUT TOKYO check-in</h4><p>整理行李、充電、休息。</p></div><div class="actions"><span>Hotel</span><a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=LANDABOUT+TOKYO+Negishi+Taito+Tokyo" rel="noopener" target="_blank">Map</a></div></div><details class="day-details" open><summary>咖啡重點與用餐備選</summary><div class="detail-content"><div class="coffee-note"><b>咖啡重點：</b>不排咖啡探店，避免影響睡眠。</div><div class="meal-grid"><section><h3>選擇 A</h3><div class="meal"><div class="rank">第一</div><div><b>らーめん 鴨to葱</b><p>抵達夜高質拉麵，比連鎖店更有記憶點。</p><a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ramen+Kamo+to+Negi+Ueno+Okachimachi+Tokyo" rel="noopener" target="_blank">Google Maps</a><div class="reservation-tools"><span class="reservation-status">現場排隊</span></div></div></div></section><section><h3>選擇 B</h3><div class="meal"><div class="rank">第二</div><div><b>一蘭 上野</b><p>航班或入境延誤時最穩陣。</p><a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=Ichiran+Ueno+Tokyo" rel="noopener" target="_blank">Google Maps</a><div class="reservation-tools"><span class="reservation-status">現場排隊</span></div></div></div></section></div></div></details></div></details></li></ol></section></div></article></main></body></html>
