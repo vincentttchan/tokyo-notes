@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Google Sheets 備份設定｜Tokyo Notes</title>
+  <style>
+    :root{--paper:#f3f2ee;--ink:#172126;--muted:#687477;--line:#d8d8d1;--teal:#4f8793;--soft:#e8f1f0;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif;line-height:1.65}.page{width:min(760px,100%);margin:auto;padding:clamp(1rem,4vw,3rem)}header{padding:clamp(1.25rem,5vw,2.5rem);border-radius:.85rem;background:#172126;color:#fff}header a{color:#b9d5d5;text-decoration:none}header p{margin:0;color:#a9b9ba;font-size:.78rem;letter-spacing:.12em}h1{margin:.3rem 0;font-family:Georgia,"Noto Serif TC",serif;font-size:clamp(1.8rem,7vw,3rem);line-height:1.2}header span{color:#c6d0d0;font-size:.85rem}.intro{margin:1rem 0;padding:1rem;border:1px solid #a9c3c1;border-radius:.7rem;background:var(--soft);font-size:.9rem}.steps{counter-reset:step;display:grid;gap:.75rem;margin:1rem 0}.step{position:relative;padding:1rem 1rem 1rem 3.4rem;border:1px solid var(--line);border-radius:.7rem;background:var(--white)}.step:before{counter-increment:step;content:counter(step);position:absolute;top:1rem;left:1rem;display:grid;width:1.7rem;height:1.7rem;place-items:center;border-radius:50%;background:var(--teal);color:#fff;font-weight:800}.step h2{margin:0;font-size:1rem}.step p,.step ul{margin:.35rem 0 0;color:var(--muted);font-size:.86rem}.step code{padding:.12rem .3rem;border-radius:.25rem;background:#eef0ed;color:#315e65}.actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.7rem}.actions a,.actions button{min-height:2.75rem;border:1px solid var(--teal);border-radius:.5rem;padding:.65rem .9rem;background:var(--teal);color:#fff;font:750 .82rem/1 inherit;text-decoration:none;cursor:pointer}.actions a{display:inline-flex;align-items:center}.actions .secondary{background:#fff;color:var(--teal)}.notice{padding:1rem;border-left:4px solid #c28a3e;background:#fff8e9;color:#715a29;font-size:.85rem}footer{padding:1rem 0;color:var(--muted);font-size:.75rem;text-align:center}@media(max-width:520px){.page{padding:.75rem}.step{padding-left:3rem}.actions{display:grid}.actions a,.actions button{justify-content:center;width:100%}}
+  </style>
+</head>
+<body><main class="page">
+  <header><p>TOKYO NOTES · WALLET BACKUP</p><h1>連接 Google Sheets</h1><span>只需設定一次；其後每筆支出會先存手機，再自動備份。</span></header>
+  <p class="intro">整個同步流程不會把 Google 密碼放進網站。私人同步碼與 Apps Script 網址只保存在你目前使用的瀏覽器。</p>
+  <section class="steps">
+    <article class="step"><h2>建立試算表</h2><p>在 Google Sheets 建立新檔案，例如「Tokyo 2026 Expenses」，然後選擇「擴充功能 → Apps Script」。</p></article>
+    <article class="step"><h2>貼上接收程式</h2><p>清除 Apps Script 編輯器原有內容，把下方的 <code>Code.gs</code> 完整貼上並儲存。</p><div class="actions"><button type="button" data-copy-code>複製 Code.gs</button><a class="secondary" href="Code.gs" target="_blank" rel="noopener">檢視原始碼</a></div><p data-copy-status aria-live="polite"></p></article>
+    <article class="step"><h2>設定私人同步碼</h2><p>在 Apps Script「專案設定 → 指令碼屬性」新增 <code>SYNC_TOKEN</code>。值請使用至少 24 個字元、只有你知道的同步碼。</p></article>
+    <article class="step"><h2>執行一次 setup</h2><p>在函式選單選擇 <code>setup</code>，按「執行」並完成 Google 授權。程式會建立 Expenses 工作表及標題列。</p></article>
+    <article class="step"><h2>部署為網頁應用程式</h2><ul><li>部署 → 新增部署作業 → 網頁應用程式</li><li>執行身分：我</li><li>誰可以存取：任何人</li></ul><p>完成後複製以 <code>/exec</code> 結尾的網址。</p></article>
+    <article class="step"><h2>回到錢包完成連接</h2><p>在「Google Sheets 備份 → 設定」貼上 <code>/exec</code> 網址及同一個同步碼，按「儲存並測試」。看到「已連線」即完成。</p><div class="actions"><a href="../index.html">返回 Tokyo Notes</a></div></article>
+  </section>
+  <p class="notice">Google Sheet 以 Record ID 更新同一行，因此離線重試不會重複入帳。網站刪除的支出會在 Sheet 標記為 deleted，保留復原紀錄。</p>
+  <footer>Tokyo Notes · Google Sheets Backup</footer>
+</main><script>
+document.querySelector('[data-copy-code]').addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]');try{const code=await fetch('Code.gs').then(response=>{if(!response.ok)throw new Error('load');return response.text()});await navigator.clipboard.writeText(code);status.textContent='已複製，現在可貼到 Apps Script 編輯器。'}catch{status.textContent='未能自動複製，請按「檢視原始碼」後手動全選複製。';}});
+</script></body></html>
