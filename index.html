@@ -353,20 +353,9 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
     if(loadSyncConfig().autoSync&&navigator.onLine) processSyncQueue();
   }
   function queueExistingExpenses() { const wallet=loadWallet(); wallet.expenses.forEach(item=>enqueueSync('upsert',item,wallet.rate)); }
-  function verifyJob(endpoint,token,jobId) {
-    return new Promise(resolve=>{
-      const callback='__tokyoSync'+Math.random().toString(36).slice(2); const script=document.createElement('script'); let settled=false; let timer;
-      const finish=value=>{if(settled)return;settled=true;clearTimeout(timer);delete window[callback];script.remove();resolve(Boolean(value));};
-      window[callback]=data=>finish(data&&data.ok&&data.received);
-      script.onerror=()=>finish(false);
-      script.src=endpoint+'?action=status&jobId='+encodeURIComponent(jobId)+'&token='+encodeURIComponent(token)+'&callback='+encodeURIComponent(callback)+'&_='+Date.now();
-      timer=setTimeout(()=>finish(false),6000); document.head.appendChild(script);
-    });
-  }
   async function transmitJob(job,config) {
     await fetch(config.endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...job,token:config.token})});
-    for(const delay of [350,800,1500]) { await new Promise(resolve=>setTimeout(resolve,delay)); if(await verifyJob(config.endpoint,config.token,job.jobId)) return true; }
-    return false;
+    return true;
   }
   async function processSyncQueue({announce=false}={}) {
     if(syncInProgress||!isSyncConfigured()) return;
@@ -379,7 +368,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
         if(!confirmed){ job.attempts=(job.attempts||0)+1; queue[0]=job; saveSyncQueue(queue); const wallet=loadWallet(); const item=wallet.expenses.find(entry=>entry.id===job.expenseId); if(item){item.syncStatus='error';saveWallet(wallet);} if(announce) panel.querySelector('[data-wallet-status]').textContent='Google Sheets 暫未確認收件；記錄仍在手機並會稍後重試。'; break; }
         queue.shift(); saveSyncQueue(queue); const wallet=loadWallet(); const item=wallet.expenses.find(entry=>entry.id===job.expenseId); if(item){item.syncStatus='synced';item.syncedAt=new Date().toISOString();saveWallet(wallet);} config.lastSyncAt=new Date().toISOString(); saveSyncConfig(config); renderWallet();
       }
-      if(!loadSyncQueue().length) panel.querySelector('[data-wallet-status]').textContent=announce?'Google Sheets 備份已完成並確認收件。':'支出已儲存在手機，Google Sheets 亦已確認備份。';
+      if(!loadSyncQueue().length) panel.querySelector('[data-wallet-status]').textContent=announce?'Google Sheets 備份已傳送完成。':'支出已儲存在手機，並已傳送至 Google Sheets。';
     } finally { syncInProgress=false; renderSyncStatus(); }
   }
   function formatJPY(value) { return '¥'+Math.round(value).toLocaleString(); }
