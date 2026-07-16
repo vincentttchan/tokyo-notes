@@ -342,6 +342,23 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   function loadSyncQueue() { try { const value=JSON.parse(localStorage.getItem(syncQueueKey)||'[]'); return Array.isArray(value)?value:[]; } catch { return []; } }
   function saveSyncQueue(value) { localStorage.setItem(syncQueueKey,JSON.stringify(value)); }
   function isAllowedSyncEndpoint(value) { return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(value)||(location.hostname==='127.0.0.1'&&/^http:\/\/127\.0\.0\.1:\d+\/sync$/.test(value)); }
+  function importSyncPairingFromHash() {
+    const prefix='#wallet-sync=';
+    if(!location.hash.startsWith(prefix)) return false;
+    try {
+      const encoded=decodeURIComponent(location.hash.slice(prefix.length)).replace(/-/g,'+').replace(/_/g,'/');
+      const padded=encoded+'='.repeat((4-encoded.length%4)%4);
+      const bytes=Uint8Array.from(atob(padded),char=>char.charCodeAt(0));
+      const payload=JSON.parse(new TextDecoder().decode(bytes));
+      const endpoint=String(payload?.endpoint||'').trim().replace(/\/$/,'');
+      const token=String(payload?.token||'').trim();
+      if(!isAllowedSyncEndpoint(endpoint)||token.length<24) return false;
+      saveSyncConfig({endpoint,token,autoSync:true,lastSyncAt:''});
+      return true;
+    } catch { return false; }
+    finally { history.replaceState(null,'',location.pathname+location.search); }
+  }
+  const pairedOnLoad=importSyncPairingFromHash();
   function isSyncConfigured() { const config=loadSyncConfig(); return isAllowedSyncEndpoint(config.endpoint)&&config.token.length>=24; }
   function enqueueSync(action,expense,rate=loadWallet().rate) {
     if(!isSyncConfigured()) return;
@@ -481,6 +498,13 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   syncPanel.querySelector('[data-sync-disconnect]').addEventListener('click',()=>{localStorage.removeItem(syncConfigKey);renderSyncStatus();panel.querySelector('[data-wallet-status]').textContent='已從這部裝置移除 Google Sheets 網址及同步碼；本機支出沒有被刪除。';});
   window.addEventListener('online',()=>{renderSyncStatus();if(loadSyncConfig().autoSync)processSyncQueue();});
   window.addEventListener('offline',renderSyncStatus);
-  renderWallet(); if(isSyncConfigured()&&loadSyncConfig().autoSync) processSyncQueue();
+  renderWallet();
+  if(pairedOnLoad){
+    root.querySelector('[data-module-target="calculator"][data-view-target="wallet"]')?.click();
+    panel.querySelector('[data-wallet-status]').textContent='手機配對完成：Google Sheets 已連接；新增支出後會自動備份。';
+  }
+  if(isSyncConfigured()&&loadSyncConfig().autoSync) processSyncQueue().finally(()=>{
+    if(pairedOnLoad) panel.querySelector('[data-wallet-status]').textContent='手機配對完成：Google Sheets 已連接；新增支出後會自動備份。';
+  });
 })();
 </script><script src="meal-guide.js"></script></body></html>
