@@ -1,4 +1,21 @@
 (function initWalletSyncTransport(globalRef) {
+  function findMissingSyncExpenses(expenses = [], queue = []) {
+    const queuedIds = new Set(queue.map(job => String(job?.expenseId || '')));
+    return expenses.filter(expense =>
+      expense?.id
+      && expense.syncStatus !== 'synced'
+      && !queuedIds.has(String(expense.id))
+    );
+  }
+
+  function countOutstandingSyncRecords(expenses = [], queue = []) {
+    const ids = new Set(queue.map(job => String(job?.expenseId || '')).filter(Boolean));
+    expenses.forEach(expense => {
+      if (expense?.id && expense.syncStatus !== 'synced') ids.add(String(expense.id));
+    });
+    return ids.size;
+  }
+
   function createJsonpVerifier({ documentRef, timeoutMs = 12000 } = {}) {
     return function verifyStatus(endpoint, token, jobId) {
       return new Promise(resolve => {
@@ -74,10 +91,20 @@
       return false;
     }
 
-    return { dispatchJob, transmitJob };
+    return {
+      dispatchJob,
+      transmitJob,
+      findMissingSyncExpenses,
+      countOutstandingSyncRecords
+    };
   }
 
-  const api = { createTransport, createJsonpVerifier };
+  const api = {
+    createTransport,
+    createJsonpVerifier,
+    findMissingSyncExpenses,
+    countOutstandingSyncRecords
+  };
   globalRef.TokyoWalletSyncTransport = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : window);

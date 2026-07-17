@@ -339,7 +339,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
 
   selectDay(selectedDay); refreshChecks(); refreshBuys(); refreshDocuments(); refreshWeather();
 })();
-</script><script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js" integrity="sha384-o5vdFlIHJf1L/hUFEtj8tgNVtCT+02DKNT3MPA47wJ9Eo5HocC7qCL2YL+sWNsk8" crossorigin="anonymous"></script><script src="wallet-sync-transport.js"></script><script>
+</script><script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js" integrity="sha384-o5vdFlIHJf1L/hUFEtj8tgNVtCT+02DKNT3MPA47wJ9Eo5HocC7qCL2YL+sWNsk8" crossorigin="anonymous"></script><script src="wallet-sync-transport.js?v=20260718-3"></script><script>
 (() => {
   const root = document.querySelector('[data-route-app]');
   const panel = root?.querySelector('#wallet-panel');
@@ -382,6 +382,9 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   }
   const pairedOnLoad=importSyncPairingFromHash();
   function isSyncConfigured() { const config=loadSyncConfig(); return isAllowedSyncEndpoint(config.endpoint)&&config.token.length>=24; }
+  function createSyncJob(action,expense,rate=loadWallet().rate) {
+    return {jobId:makeId('job-'),action,expenseId:expense.id,expense:{...expense,rate},source:'tokyo-notes-github-pages',createdAt:new Date().toISOString(),attempts:0};
+  }
   function createPairingUrl() {
     if(!isSyncConfigured()) return '';
     const config=loadSyncConfig();
@@ -402,13 +405,23 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   function enqueueSync(action,expense,rate=loadWallet().rate) {
     if(!isSyncConfigured()) return;
     const queue=loadSyncQueue().filter(job=>job.expenseId!==expense.id);
-    queue.push({jobId:makeId('job-'),action,expenseId:expense.id,expense:{...expense,rate},source:'tokyo-notes-github-pages',createdAt:new Date().toISOString(),attempts:0});
+    queue.push(createSyncJob(action,expense,rate));
     saveSyncQueue(queue);
     const wallet=loadWallet(); const record=wallet.expenses.find(item=>item.id===expense.id); if(record){record.syncStatus='pending';saveWallet(wallet);}
     renderSyncStatus();
     if(loadSyncConfig().autoSync&&navigator.onLine) processSyncQueue();
   }
-  function queueExistingExpenses() { const wallet=loadWallet(); wallet.expenses.forEach(item=>enqueueSync('upsert',item,wallet.rate)); }
+  function reconcileSyncQueue() {
+    if(!isSyncConfigured()||!syncTransport) return 0;
+    const wallet=loadWallet(); const queue=loadSyncQueue();
+    const missing=syncTransport.findMissingSyncExpenses(wallet.expenses,queue);
+    missing.forEach(expense=>{
+      queue.push(createSyncJob('upsert',expense,wallet.rate));
+      expense.syncStatus='pending';
+    });
+    if(missing.length){saveSyncQueue(queue);saveWallet(wallet);}
+    return syncTransport.countOutstandingSyncRecords(wallet.expenses,queue);
+  }
   async function transmitJob(job,config) {
     if(!syncTransport) return false;
     return syncTransport.transmitJob(job,config);
@@ -481,11 +494,12 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   }
   function renderSyncStatus() {
     const syncPanel=panel.querySelector('[data-wallet-sync]'); if(!syncPanel) return;
-    const config=loadSyncConfig(); const queue=loadSyncQueue(); const configured=isSyncConfigured();
+    const config=loadSyncConfig(); const queue=loadSyncQueue(); const configured=isSyncConfigured(); const wallet=loadWallet();
+    const outstanding=configured&&syncTransport?syncTransport.countOutstandingSyncRecords(wallet.expenses,queue):0;
     const connection=syncPanel.querySelector('[data-sync-connection]');
-    connection.textContent=!configured?'尚未設定':syncInProgress?'同步中 · '+queue.length+' 筆':!navigator.onLine?'離線 · 等候網絡':queue.length?'已連線 · 有待同步':'已連線';
-    connection.dataset.syncState=!configured?'local':(!navigator.onLine||queue.length)?'pending':'connected';
-    syncPanel.querySelector('[data-sync-pending]').textContent=queue.length+' 筆';
+    connection.textContent=!configured?'尚未設定':syncInProgress?'同步中 · '+outstanding+' 筆':!navigator.onLine?'離線 · 等候網絡':outstanding?'已連線 · 有待同步':'已連線';
+    connection.dataset.syncState=!configured?'local':(!navigator.onLine||outstanding)?'pending':'connected';
+    syncPanel.querySelector('[data-sync-pending]').textContent=outstanding+' 筆';
     syncPanel.querySelector('[data-sync-last]').textContent=config.lastSyncAt?new Intl.DateTimeFormat('zh-HK',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(config.lastSyncAt)):'—';
     const syncNow=syncPanel.querySelector('[data-sync-now]'); syncNow.disabled=!configured||syncInProgress; syncNow.textContent=syncInProgress?'同步中…':'立即同步';
     syncPanel.querySelector('[data-device-title]').textContent=configured?'此瀏覽器已連接 Google Sheets':'此瀏覽器尚未連線';
@@ -566,15 +580,14 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   pairingDialog.addEventListener('close',clearPairingDialog);
   pairingDialog.querySelector('[data-pair-copy]').addEventListener('click',async()=>{if(!pairingUrlCache)return;try{await copyPairingText(pairingUrlCache);pairingStatus.textContent='配對連結已複製；請只傳送到自己的裝置。';}catch{pairingStatus.textContent='未能自動複製，請改用系統分享。';}});
   pairingDialog.querySelector('[data-pair-share]').addEventListener('click',async()=>{if(!pairingUrlCache||typeof navigator.share!=='function')return;try{await navigator.share({title:'Tokyo Notes 手機配對',text:'只在自己的裝置開啟這個私人配對連結。',url:pairingUrlCache});pairingStatus.textContent='分享面板已開啟。';}catch(error){if(error?.name!=='AbortError')pairingStatus.textContent='未能開啟分享，請改用複製配對連結。';}});
-  syncSettings.addEventListener('submit',event=>{event.preventDefault();const currentConfig=loadSyncConfig();const endpoint=syncSettings.endpoint.value.trim().replace(/\/$/,'');const token=syncSettings.token.value.trim()||currentConfig.token||'';if(!isAllowedSyncEndpoint(endpoint)){panel.querySelector('[data-wallet-status]').textContent='請輸入由 Google Apps Script 部署、以 /exec 結尾的網址。';syncSettings.endpoint.focus();return;}if(token.length<24){panel.querySelector('[data-wallet-status]').textContent='私人同步碼至少需要 24 個字元。';syncSettings.token.focus();return;}saveSyncConfig({endpoint,token,autoSync:syncSettings.autoSync.checked,lastSyncAt:currentConfig.lastSyncAt||''});queueExistingExpenses();renderWallet();panel.querySelector('[data-wallet-status]').textContent='同步設定只儲存在這部裝置；正在測試連線及備份既有記錄。';processSyncQueue({announce:true});});
-  syncPanel.querySelector('[data-sync-now]').addEventListener('click',()=>processSyncQueue({announce:true}));
+  syncSettings.addEventListener('submit',event=>{event.preventDefault();const currentConfig=loadSyncConfig();const endpoint=syncSettings.endpoint.value.trim().replace(/\/$/,'');const token=syncSettings.token.value.trim()||currentConfig.token||'';if(!isAllowedSyncEndpoint(endpoint)){panel.querySelector('[data-wallet-status]').textContent='請輸入由 Google Apps Script 部署、以 /exec 結尾的網址。';syncSettings.endpoint.focus();return;}if(token.length<24){panel.querySelector('[data-wallet-status]').textContent='私人同步碼至少需要 24 個字元。';syncSettings.token.focus();return;}saveSyncConfig({endpoint,token,autoSync:syncSettings.autoSync.checked,lastSyncAt:currentConfig.lastSyncAt||''});reconcileSyncQueue();renderWallet();panel.querySelector('[data-wallet-status]').textContent='同步設定只儲存在這部裝置；正在測試連線及備份既有記錄。';processSyncQueue({announce:true});});
+  syncPanel.querySelector('[data-sync-now]').addEventListener('click',()=>{reconcileSyncQueue();renderSyncStatus();processSyncQueue({announce:true});});
   syncPanel.querySelector('[data-sync-disconnect]').addEventListener('click',()=>{if(!window.confirm('只會移除這部裝置的 Google Sheets 連線；本機支出不會刪除。確定移除？'))return;localStorage.removeItem(syncConfigKey);syncSettings.hidden=true;renderSyncStatus();panel.querySelector('[data-wallet-status]').textContent='已移除此裝置的 Google Sheets 連線；本機支出沒有被刪除。';});
-  window.addEventListener('online',()=>{renderSyncStatus();if(loadSyncConfig().autoSync)processSyncQueue();});
+  window.addEventListener('online',()=>{reconcileSyncQueue();renderSyncStatus();if(loadSyncConfig().autoSync)processSyncQueue();});
   window.addEventListener('offline',renderSyncStatus);
-  renderWallet();
+  reconcileSyncQueue(); renderWallet();
   if(pairedOnLoad){
     root.querySelector('[data-module-target="calculator"][data-view-target="wallet"]')?.click();
-    queueExistingExpenses();
     panel.querySelector('[data-wallet-status]').textContent='手機配對完成：Google Sheets 已連接；新增支出後會自動備份。';
   }
   if(isSyncConfigured()&&loadSyncConfig().autoSync) processSyncQueue().finally(()=>{

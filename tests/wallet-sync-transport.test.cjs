@@ -69,3 +69,46 @@ test('falls back to a non-blocking fetch when sendBeacon cannot queue the job', 
   assert.equal(fetchStarted, true);
   assert.equal(confirmed, true);
 });
+
+test('finds wallet records that are unresolved even when the queue is empty', () => {
+  assert.equal(typeof transportModule?.findMissingSyncExpenses, 'function',
+    'wallet sync transport must expose findMissingSyncExpenses');
+  assert.equal(typeof transportModule?.countOutstandingSyncRecords, 'function',
+    'wallet sync transport must expose countOutstandingSyncRecords');
+
+  const expenses = [
+    { id: 'expense-pending', syncStatus: 'pending' },
+    { id: 'expense-local', syncStatus: 'local' },
+    { id: 'expense-synced', syncStatus: 'synced' }
+  ];
+  const queue = [];
+
+  assert.deepEqual(
+    transportModule.findMissingSyncExpenses(expenses, queue).map(item => item.id),
+    ['expense-pending', 'expense-local']
+  );
+  assert.equal(transportModule.countOutstandingSyncRecords(expenses, queue), 2);
+});
+
+test('does not duplicate an unresolved wallet record already present in the queue', () => {
+  assert.equal(typeof transportModule?.findMissingSyncExpenses, 'function',
+    'wallet sync transport must expose findMissingSyncExpenses');
+
+  const expenses = [{ id: 'expense-pending', syncStatus: 'pending' }];
+  const queue = [{ expenseId: 'expense-pending' }];
+
+  assert.deepEqual(transportModule.findMissingSyncExpenses(expenses, queue), []);
+  assert.equal(transportModule.countOutstandingSyncRecords(expenses, queue), 1);
+});
+
+test('exposes reconciliation helpers on the browser transport instance', () => {
+  const transport = transportModule.createTransport({
+    navigatorRef: {},
+    fetchRef: async () => {},
+    verifyStatus: async () => false,
+    wait: async () => {}
+  });
+
+  assert.equal(typeof transport.findMissingSyncExpenses, 'function');
+  assert.equal(typeof transport.countOutstandingSyncRecords, 'function');
+});
