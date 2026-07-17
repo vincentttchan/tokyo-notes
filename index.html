@@ -339,7 +339,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
 
   selectDay(selectedDay); refreshChecks(); refreshBuys(); refreshDocuments(); refreshWeather();
 })();
-</script><script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js" integrity="sha384-o5vdFlIHJf1L/hUFEtj8tgNVtCT+02DKNT3MPA47wJ9Eo5HocC7qCL2YL+sWNsk8" crossorigin="anonymous"></script><script>
+</script><script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.min.js" integrity="sha384-o5vdFlIHJf1L/hUFEtj8tgNVtCT+02DKNT3MPA47wJ9Eo5HocC7qCL2YL+sWNsk8" crossorigin="anonymous"></script><script src="wallet-sync-transport.js"></script><script>
 (() => {
   const root = document.querySelector('[data-route-app]');
   const panel = root?.querySelector('#wallet-panel');
@@ -350,6 +350,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   const syncQueueKey = 'tokyo-notes-wallet-sync-queue-v1';
   let syncInProgress = false;
   let pairingUrlCache = '';
+  const syncTransport = globalThis.TokyoWalletSyncTransport?.createTransport();
   const colors=['#4f8793','#c28a3e','#a6533b','#566e86','#786886','#6f7b78','#a87a60','#afb7b4','#9a6f4a','#516a54'];
   const defaultCardSettings = { preference:'cash', bocQualified:true, amexEnrolled:true, hsbcOverseas:true };
   const emptyWallet = () => ({ rate:0.0488, budget:0, expenses:[], cardSettings:{...defaultCardSettings} });
@@ -409,8 +410,8 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   }
   function queueExistingExpenses() { const wallet=loadWallet(); wallet.expenses.forEach(item=>enqueueSync('upsert',item,wallet.rate)); }
   async function transmitJob(job,config) {
-    await fetch(config.endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...job,token:config.token})});
-    return true;
+    if(!syncTransport) return false;
+    return syncTransport.transmitJob(job,config);
   }
   async function processSyncQueue({announce=false}={}) {
     if(syncInProgress||!isSyncConfigured()) return;
@@ -482,7 +483,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
     const syncPanel=panel.querySelector('[data-wallet-sync]'); if(!syncPanel) return;
     const config=loadSyncConfig(); const queue=loadSyncQueue(); const configured=isSyncConfigured();
     const connection=syncPanel.querySelector('[data-sync-connection]');
-    connection.textContent=!configured?'尚未設定':syncInProgress?'同步中…':!navigator.onLine?'離線 · 等候網絡':queue.length?'已連線 · 有待同步':'已連線';
+    connection.textContent=!configured?'尚未設定':syncInProgress?'同步中 · '+queue.length+' 筆':!navigator.onLine?'離線 · 等候網絡':queue.length?'已連線 · 有待同步':'已連線';
     connection.dataset.syncState=!configured?'local':(!navigator.onLine||queue.length)?'pending':'connected';
     syncPanel.querySelector('[data-sync-pending]').textContent=queue.length+' 筆';
     syncPanel.querySelector('[data-sync-last]').textContent=config.lastSyncAt?new Intl.DateTimeFormat('zh-HK',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(config.lastSyncAt)):'—';
@@ -573,6 +574,7 @@ button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}but
   renderWallet();
   if(pairedOnLoad){
     root.querySelector('[data-module-target="calculator"][data-view-target="wallet"]')?.click();
+    queueExistingExpenses();
     panel.querySelector('[data-wallet-status]').textContent='手機配對完成：Google Sheets 已連接；新增支出後會自動備份。';
   }
   if(isSyncConfigured()&&loadSyncConfig().autoSync) processSyncQueue().finally(()=>{
