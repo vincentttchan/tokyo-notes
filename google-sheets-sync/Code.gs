@@ -2,7 +2,7 @@ const SHEET_NAME = 'Expenses';
 const HEADERS = [
   'Record ID', 'Created at', 'Expense date', 'Item', 'Category',
   'JPY', 'HKD', 'Rate (HKD per JPY)', 'Payment', 'Status',
-  'Updated at', 'Job ID', 'Source'
+  'Updated at', 'Job ID', 'Source', 'Paid by', 'Split count', 'Per person JPY'
 ];
 
 /**
@@ -69,7 +69,10 @@ function writeExpense_(payload) {
       action === 'delete' ? 'deleted' : 'active',
       now,
       payload.jobId,
-      payload.source || 'tokyo-notes'
+      payload.source || 'tokyo-notes',
+      expense.payer || '我',
+      Math.max(1, Number(expense.splitCount) || 1),
+      Number((amount / Math.max(1, Number(expense.splitCount) || 1)).toFixed(2))
     ];
     if (existingRow) sheet.getRange(existingRow, 1, 1, row.length).setValues([row]);
     else sheet.appendRow(row);
@@ -103,6 +106,12 @@ function ensureSheet_() {
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground('#dfeae8');
     sheet.autoResizeColumns(1, HEADERS.length);
+  } else if (sheet.getLastColumn() < HEADERS.length) {
+    const start = sheet.getLastColumn() + 1;
+    const missing = HEADERS.slice(start - 1);
+    sheet.getRange(1, start, 1, missing.length).setValues([missing]);
+    sheet.getRange(1, start, 1, missing.length).setFontWeight('bold').setBackground('#dfeae8');
+    sheet.autoResizeColumns(start, missing.length);
   }
   return sheet;
 }
