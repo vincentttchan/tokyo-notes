@@ -18,6 +18,52 @@
         ['20:45', 'Return', '返回日本橋酒店', '由渋谷站直接乘地鐵回酒店，不再加插其他區域。', 'Mitsui Garden Hotel Nihonbashi Premier', 35.6882, 139.7735, 'hotel']
       ]
     },
+    20: {
+      area: '東京站・白絲瀑布・舊輕井澤',
+      title: 'Asama 609、白絲瀑布與舊輕井澤（全程公共交通）',
+      intro: '11:04 由東京出發，抵達後先寄存行李，再以草輕巴士完成白絲瀑布與舊輕井澤；不租車、不趕 12:40 班次。',
+      advisory: '固定車次：Asama 609 東京 11:04 → 輕井澤 12:15。主方案搭 13:20 草輕巴士（北口 2 號站）→ 13:45 白絲瀑布；14:46 回程 → 15:05 舊輕井澤。若錯過主方案，改搭 13:40 → 14:05，並搭 15:03 → 15:22。巴士可能滿座或受塞車影響，落車時先確認回程站牌。',
+      weather: '帶輕便雨具及防滑鞋；雷雨、巴士滿座或道路受阻時，直接取消白絲瀑布，改乘巴士到舊輕井澤，避免在山區等車。',
+      footer: '固定交通：Asama 609 11:04–12:15｜草輕巴士 13:20／14:46',
+      stops: [
+        ['08:30', 'Breakfast', '日本橋酒店早餐・退房', '先吃完整早餐；09:45 前退房，確認新幹線票、雨具與日圓現金。', 'Mitsui Garden Hotel Nihonbashi Premier', 35.6882, 139.7735, 'hotel'],
+        ['10:00', 'Transit', '日本橋酒店 → 東京站', '有行李建議短程的士至日本橋口；10:30 前到站，留時間找月台與買午餐。', 'Tokyo Station Nihonbashi Exit', 35.6825, 139.7707, 'transit'],
+        ['11:04', 'Reserved Train', 'Asama 609｜東京 → 輕井澤', '固定班次 11:04–12:15；午餐在車上吃駅弁，避免抵達後再排餐廳。', 'Tokyo Station', 35.6812, 139.7671, 'reserved', 'JR 東日本', 'https://www.jreast.co.jp/multi/en/'],
+        ['12:15', 'Arrival', '抵達輕井澤・TWIN-LINE 寄存行李', '由北口步行至酒店，先寄存行李；13:05 前返回北口 2 號巴士站排隊。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
+        ['13:20', 'Bus', '草輕巴士 → 白絲瀑布', '北口 2 號站上車，13:45 抵達；單程 ¥720。今天是繁忙日，提早排隊，滿員時立即切換後備方案。', 'Karuizawa Station North Exit Bus Stop 2', 36.3424, 138.6350, 'transit', '官方時間表', 'https://www.kkkg.co.jp/bus/timetable/kusakaru_sen_sim.pdf?v=202604'],
+        ['13:45', 'Nature', '白絲瀑布', '由站牌沿步道往返，停留約 50–55 分鐘；14:35 前回到站牌等車，不往山區延伸。', 'Shiraito Waterfall Karuizawa Nagano', 36.4106, 138.5921, 'spot'],
+        ['14:46', 'Bus', '白絲瀑布 → 舊輕井澤', '搭 14:46 班次，15:05 於舊輕井澤下車。錯過便搭 15:03 → 15:22；不要等到更後班次才決定。', 'Kyu Karuizawa Ginza Street', 36.3580, 138.6342, 'transit', '官方時間表', 'https://www.kkkg.co.jp/bus/timetable/kusakaru_sen_sim.pdf?v=202604'],
+        ['15:10', 'Walk & Shopping', '舊輕井澤銀座・聖保羅教堂', '先走主街及教堂；約 90 分鐘已足夠。人多時不加雲場池，避免把晚餐前的酒店入住壓縮。', 'Kyu Karuizawa Ginza Street', 36.3580, 138.6342, 'spot'],
+        ['16:50', 'Return', '舊輕井澤 → TWIN-LINE', '搭巴士或步行約 25–30 分鐘回酒店；完成入住、休息及整理行李。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
+        ['19:00', 'Dinner', 'José Luis Karuizawa', '留在酒店內吃晚餐最穩妥；如未訂位，以川上庵或車站一帶餐廳作後備。', 'Jose Luis Karuizawa', 36.3430, 138.6365, 'reserved', '餐廳資料', 'https://www.twin-line-hotel.com/karuizawa/restaurant/']
+      ]
+    },
+    21: {
+      area: '星野・輕井澤站・東京丸之內',
+      title: '星野晨遊、Asama 644 與東京站購物',
+      intro: '10:00 離開酒店，以的士直達星野區；12:25 搭巴士回站，Outlet 只作一小時指定店快逛，再搭 15:34 新幹線。',
+      advisory: '固定車次：Asama 644 輕井澤 15:34 → 東京 16:40。平日西武巴士在 09:10 後下一班由輕井澤站開出的班次是 11:00，因此 10:00 出發改搭的士，避免在車站浪費一小時。12:15 前到蜻蜓之湯站牌，搭 12:25 回程；若錯過，立即搭的士回酒店並取消 Outlet。',
+      weather: '星野區早段較涼，帶薄外套；下雨時集中 Harunire Terrace 室內店與丸山咖啡。東京站購物全程可使用地下通道。',
+      footer: '固定交通：10:00 的士往星野｜西武巴士 12:25 回程｜Asama 644 15:34–16:40',
+      stops: [
+        ['09:00', 'Breakfast', 'TWIN-LINE 早餐', '09:00 慢慢吃早餐；09:40 回房作最後整理，護照與新幹線票放隨身袋。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
+        ['09:50', 'Checkout', '退房・寄存行李', '在酒店完成退房並寄存大型行李；請櫃台協助預約 10:00 的士。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
+        ['10:00', 'Taxi', 'TWIN-LINE → 星野區', '直接乘的士到 Harunire Terrace／星野溫泉，車程約 20 分鐘；不等 11:00 才開出的下一班平日巴士。', 'Harunire Terrace Karuizawa', 36.3598, 138.5913, 'transit', '西武巴士時間表', 'https://www.seibubus.co.jp/timetable/dia/timechart/800001_01_1.html'],
+        ['10:20', 'Nature & Design', 'Harunire Terrace・星野區散步', '沿湯川步道短走，再看設計、生活選物與手信；不走長距離森林路線。', 'Harunire Terrace Karuizawa', 36.3598, 138.5913, 'spot', '店舖營業時間', 'https://www.hoshino-area.jp/business-hours/'],
+        ['10:55', 'Church', '輕井澤高原教會・石之教會', '步行查看兩座教堂；婚禮期間可能限制入內，不能參觀便只看外觀並立即返回 Harunire。', 'Stone Church Uchimura Kanzo Memorial Hall', 36.3539, 138.5891, 'spot', '參觀須知', 'https://www.stonechurch.jp/access/'],
+        ['11:30', 'Early Lunch', 'SAWAMURA・丸山咖啡', 'SAWAMURA 11:00 起供應午餐；以麵包或快速餐點為主，丸山咖啡只作外帶／買豆。12:10 前離開。', 'Bakery Restaurant Sawamura Harunire Terrace', 36.3598, 138.5913, 'meal', '星野營業時間', 'https://www.hoshino-area.jp/business-hours/'],
+        ['12:25', 'Bus', '星野溫泉 → 輕井澤站', '12:15 前到蜻蜓之湯站牌，搭平日 12:25 班次。錯過便立即叫的士，不等待 13:15 班次。', 'Hoshino Onsen Tombo no Yu Bus Stop', 36.3629, 138.5901, 'transit', '官方時間表', 'https://www.seibubus.co.jp/timetable/dia/timechart/800004_01_1.html'],
+        ['13:10', 'Pickup', '返回 TWIN-LINE 取行李', '巴士抵站後回酒店取行李，再前往車站南口；若交通延誤至 13:30 後，直接取消 Outlet。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
+        ['13:35', 'Focused Shopping', 'Prince Shopping Plaza｜一小時快逛', '只揀 1–2 個目標品牌；14:35 無論如何結帳離開，14:45 回到車站。', 'Karuizawa Prince Shopping Plaza', 36.3377, 138.6349, 'spot', '官方營業時間', 'https://www.karuizawa-psp.jp/time'],
+        ['15:34', 'Reserved Train', 'Asama 644｜輕井澤 → 東京', '14:45 回到車站、取行李及上月台；固定班次 15:34–16:40。', 'Karuizawa Station', 36.3424, 138.6350, 'reserved', 'JR 東日本', 'https://www.jreast.co.jp/multi/en/'],
+        ['16:50', 'Luggage', '東京站行李寄存', '在東京站 B1 Gransta 地下北口附近寄存大型行李，服務一般至 21:00；先寄存再逛，避免拖箱穿過商場。', 'Tokyo Station Marunouchi Underground North Exit', 35.6821, 139.7664, 'transit', '寄存資料', 'https://www.gransta.jp/news/info/cloakservice/'],
+        ['17:05', 'Stationery', 'TRAVELER’S FACTORY STATION', '就在丸之內地下北口外；優先看東京站限定 Station Edition、貼紙與活版印刷紙膠帶。', 'Travelers Factory Station Tokyo', 35.6823, 139.7660, 'spot', '店舖資料', 'https://www.gransta.jp/mall/gransta_marunouchi/travelersfactorystation/'],
+        ['17:40', 'Books & Stationery', '丸善 丸之內本店', '步行至 Marunouchi OAZO，集中看日本設計、攝影書與書寫用品；營業至 21:00。', 'Maruzen Marunouchi Main Store Tokyo', 35.6837, 139.7668, 'spot'],
+        ['18:30', 'Menswear', 'BEAMS HOUSE／BEAMS PLUS 丸之內', '兩店同區，適合成熟簡約男裝、外套與日本別注；只選一店慢慢試，避免再跨到八重洲。', 'BEAMS HOUSE Marunouchi Tokyo', 35.6805, 139.7637, 'spot', '店舖資料', 'https://www.beams.co.jp/shop/bhm/'],
+        ['19:40', 'Dinner', '丸之內晚餐', '留在東京站／新丸之內大樓用餐；20:30 前取回行李，再乘的士到銀座酒店入住。', 'Shin Marunouchi Building Restaurants Tokyo', 35.6820, 139.7644, 'meal'],
+        ['20:30', 'Hotel', '取行李 → 銀座酒店入住', '由東京站乘短程的士到三井花園酒店銀座五丁目，避免晚間再拖行李轉地鐵。', 'Mitsui Garden Hotel Ginza Gochome', 35.6693, 139.7673, 'hotel']
+      ]
+    },
     22: {
       area: '銀座・新宿',
       title: '銀座與新宿：咖啡、文具與相機採買',
@@ -118,7 +164,7 @@
     const advisory = card.querySelector('.trip-advisory p');
     const timeline = card.querySelector('.route-timeline');
     const weatherTip = card.querySelector('[data-weather-tip]');
-    const footer = card.querySelector('.day-foot b');
+    const footer = card.querySelector('.day-footer b, .day-foot b');
 
     if (area) area.textContent = plan.area;
     if (heading) heading.textContent = plan.title;
@@ -148,13 +194,13 @@
     ],
     20: [
       ['早餐', '日本橋酒店早餐', '後備：東京站駅弁｜09:20退房前吃飽；不要把早餐押到輕井澤。', '¥1,500–3,500', '住宿確認', 'Mitsui Garden Hotel Nihonbashi Premier breakfast'],
-      ['午餐', 'SAWAMURA 輕井澤外帶', '後備：車站NewDays駅弁｜只有約40分鐘寄行李及用餐，必須外帶，不排正式餐廳。', '¥800–1,800', '免預約', 'Bakery Restaurant Sawamura Karuizawa'],
+      ['午餐', '東京站駅弁（車上吃）', '後備：車站 NewDays｜Asama 609 車程內完成午餐；抵達後只處理寄存與 13:20 巴士，不再排正式餐廳。', '¥800–1,800', '免預約', 'Tokyo Station Ekiben Matsuri'],
       ['晚餐', 'José Luis Karuizawa', '後備：川上庵 輕井澤｜酒店內西班牙×信州料理最省交通；正式晚餐需預約。', '¥4,000–9,000', '主選建議預約', 'Jose Luis Karuizawa']
     ],
     21: [
-      ['早餐', 'José Luis／TWIN-LINE早餐', '後備：SAWAMURA麵包外帶｜07:30開始，08:05前離開酒店趕08:30巴士。', '¥1,000–3,500', '住宿確認', 'Jose Luis Karuizawa breakfast'],
-      ['午餐', 'SAWAMURA Harunire 外帶', '後備：輕井澤站峠の釜めし｜11:00只買麵包，不坐下等餐；不可錯過11:25巴士。', '¥800–1,500', '免預約', 'Bakery Restaurant Sawamura Harunire Terrace'],
-      ['晚餐', '銀座 篝 本店', '後備：根室花まる銀座｜入住後留在銀座；想快吃選雞白湯，想壽司則預留排隊。', '¥1,500–4,000', '免預約', 'Ginza Kagari Honten Tokyo']
+      ['早餐', 'José Luis／TWIN-LINE早餐', '後備：酒店附近麵包｜09:00 用餐，09:50 完成退房及寄存，10:00 準時上車。', '¥1,000–3,500', '住宿確認', 'Jose Luis Karuizawa breakfast'],
+      ['午餐', 'SAWAMURA Harunire', '後備：SAWAMURA 麵包外帶｜11:30 吃快速午餐，12:10 前離開並到蜻蜓之湯站牌。', '¥1,000–2,500', '免預約', 'Bakery Restaurant Sawamura Harunire Terrace'],
+      ['晚餐', '丸之內／新丸之內大樓', '後備：Gransta 東京駅內餐廳｜購物後就地吃飯；20:30前取行李，再乘的士到銀座酒店。', '¥1,500–5,000', '熱門店建議預約', 'Shin Marunouchi Building Restaurants Tokyo']
     ],
     22: [
       ['早餐', 'pain･maison 銀座店', '後備：酒店早餐｜你指定的塩麵包為主；排隊超過 25 分鐘便外帶。', '¥500–1,200', '不設預約', 'pain maison Ginza Tokyo'],
