@@ -25,6 +25,29 @@
       advisory: '固定車次：Asama 609 東京 11:04 → 輕井澤 12:15。主方案搭 13:20 草輕巴士（北口 2 號站）→ 13:45 白絲瀑布；14:46 回程 → 15:05 舊輕井澤。若錯過主方案，改搭 13:40 → 14:05，並搭 15:03 → 15:22。巴士可能滿座或受塞車影響，落車時先確認回程站牌。',
       weather: '帶輕便雨具及防滑鞋；雷雨、巴士滿座或道路受阻時，直接取消白絲瀑布，改乘巴士到舊輕井澤，避免在山區等車。',
       footer: '固定交通：Asama 609 11:04–12:15｜草輕巴士 13:20／14:46',
+      backup: {
+        decision: '12:45 前決定：若持續下雨、看到雷達有雷雨帶，或 13:20 巴士候車人龍過長，便不要前往白絲瀑布。',
+        options: [
+          {
+            label: 'A｜一般雨天',
+            summary: '保留藝術與舊輕井澤氣氛，主要轉場以步行或短程的士完成。',
+            steps: [
+              ['13:00', '輕井澤 New Art Museum', '10:00–17:00；7/20 為祝日星期一，按官方規則照常開館。'],
+              ['14:40', 'Church Street／舊輕井澤有上蓋店舖', '集中咖啡、果醬、手信與室內店，不前往雲場池。'],
+              ['16:30', '返回 TWIN-LINE 入住', '換乾衣、休息；19:00 照常在 José Luis 晚餐。']
+            ]
+          },
+          {
+            label: 'B｜雷雨／大雨',
+            summary: '不搭山區巴士、不走瀑布步道，活動範圍鎖定車站與酒店。',
+            steps: [
+              ['13:00', 'Prince Shopping Plaza', '由車站南口進入，以有上蓋通道、指定店和咖啡店為主。'],
+              ['15:30', 'Outlet 室內咖啡／早段採買', '把 7/21 的 Outlet 購物移到今天，翌日便可更從容。'],
+              ['17:00', 'TWIN-LINE', '提早入住；如雷暴持續，晚餐完全留在酒店。']
+            ]
+          }
+        ]
+      },
       stops: [
         ['08:30', 'Breakfast', '日本橋酒店早餐・退房', '先吃完整早餐；09:45 前退房，確認新幹線票、雨具與日圓現金。', 'Mitsui Garden Hotel Nihonbashi Premier', 35.6882, 139.7735, 'hotel'],
         ['10:00', 'Transit', '日本橋酒店 → 東京站', '有行李建議短程的士至日本橋口；10:30 前到站，留時間找月台與買午餐。', 'Tokyo Station Nihonbashi Exit', 35.6825, 139.7707, 'transit'],
@@ -45,6 +68,30 @@
       advisory: '固定車次：Asama 644 輕井澤 15:34 → 東京 16:40。平日西武巴士在 09:10 後下一班由輕井澤站開出的班次是 11:00，因此 10:00 出發改搭的士，避免在車站浪費一小時。12:15 前到蜻蜓之湯站牌，搭 12:25 回程；若錯過，立即搭的士回酒店並取消 Outlet。',
       weather: '星野區早段較涼，帶薄外套；下雨時集中 Harunire Terrace 室內店與丸山咖啡。東京站購物全程可使用地下通道。',
       footer: '固定交通：10:00 的士往星野｜西武巴士 12:25 回程｜Asama 644 15:34–16:40',
+      backup: {
+        decision: '09:30 前決定：若只是短暫陣雨可去星野；若持續大雨、雷暴或能見度差，改走美術館／車站方案。',
+        options: [
+          {
+            label: 'A｜間歇雨',
+            summary: '仍去星野，但取消教堂之間的長步行，把時間轉到溫泉與室內店。',
+            steps: [
+              ['10:00', '的士直達蜻蜓之湯', '星野溫泉 09:00 起營業；先浸浴約 60 分鐘。'],
+              ['11:20', 'Harunire Terrace', 'SAWAMURA 快速午餐、丸山咖啡買豆；12:15 到站牌。'],
+              ['12:25', '西武巴士返回輕井澤站', '回酒店取行李；視雨勢保留或取消 13:35 Outlet。']
+            ]
+          },
+          {
+            label: 'B｜雷雨／大雨',
+            summary: '取消星野區，改為建築美術館與車站南口，所有轉場均用短程的士。',
+            steps: [
+              ['10:00', '的士往輕井澤千住博美術館', '09:30–17:00；官方列明 7–9 月星期二也開館。'],
+              ['11:40', '的士返回酒店取行李', '不等待巴士；約 12:15 前回到輕井澤站一帶。'],
+              ['12:30', 'Prince Shopping Plaza／午餐', '有上蓋通道、餐廳與咖啡；14:35 結帳，14:45 回站。'],
+              ['15:34', 'Asama 644 返回東京', '無論雨勢如何都保留固定新幹線，不再增加遠距離景點。']
+            ]
+          }
+        ]
+      },
       stops: [
         ['09:00', 'Breakfast', 'TWIN-LINE 早餐', '09:00 慢慢吃早餐；09:40 回房作最後整理，護照與新幹線票放隨身袋。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
         ['09:50', 'Checkout', '退房・寄存行李', '在酒店完成退房並寄存大型行李；請櫃台協助預約 10:00 的士。', 'TWIN-LINE HOTEL KARUIZAWA JAPAN', 36.3430, 138.6365, 'hotel'],
@@ -154,6 +201,8 @@
     return `<li class="route-stop"><time class="timeline-time" datetime="${time}">${time}</time><article class="timeline-entry" data-stop-card data-stop-index="${index}" data-stop-time="${time}" data-map-label="${title}" data-map-lat="${lat}" data-map-lon="${lon}" data-map-url="${mapUrl}" data-map-kind="${kind}" id="day-${day}-stop-${index}"><p class="timeline-category">${category}</p><h3 data-stop-title>${title}</h3><p class="timeline-purpose">${purpose}</p><div class="timeline-actions"><a class="map" href="${mapUrl}" target="_blank" rel="noopener">地圖</a>${action}</div></article></li>`;
   };
 
+  const renderBackup = (backup) => `<header><div><span>WEATHER BACKUP</span><h3>雨天後備行程</h3></div><p>${backup.decision}</p></header><div class="rain-backup-grid">${backup.options.map((option) => `<article><div class="rain-backup-label">${option.label}</div><p>${option.summary}</p><ol>${option.steps.map(([time, title, note]) => `<li><time>${time}</time><div><strong>${title}</strong><span>${note}</span></div></li>`).join('')}</ol></article>`).join('')}</div>`;
+
   Object.entries(dayPlans).forEach(([day, plan]) => {
     const card = document.querySelector(`[data-route-day="${day}"]`);
     if (!card) return;
@@ -173,6 +222,15 @@
     if (timeline) timeline.innerHTML = plan.stops.map((stop, index) => renderStop(day, stop, index)).join('');
     if (weatherTip) weatherTip.textContent = plan.weather;
     if (footer) footer.textContent = plan.footer;
+    if (plan.backup && !card.querySelector('.rain-backup')) {
+      const section = document.createElement('section');
+      section.className = 'rain-backup';
+      section.setAttribute('aria-label', '雨天後備行程');
+      section.innerHTML = renderBackup(plan.backup);
+      const anchor = card.querySelector('.trip-advisory');
+      if (anchor) anchor.after(section);
+      else timeline?.before(section);
+    }
   });
 
   const guides = {
